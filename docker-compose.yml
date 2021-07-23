@@ -1,0 +1,27 @@
+#Docker compose yml
+version: '3.3'
+services:
+  aneeque_app_api:
+    container_name: aneeque-app
+    image: aneeque-app
+    build: ./
+    ports:
+      - "8000:8080"
+    depends_on:
+      - postgresqldb
+      - cache
+  postgresqldb:
+    image: postgres
+    ports:
+      - "5440:5432"
+    environment:
+      - POSTGRES_PASSWORD=aneeque
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=aneeque_db
+  cache:
+    image: "redis"
+    ports:
+    - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
